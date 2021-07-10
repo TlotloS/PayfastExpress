@@ -17,3 +17,5 @@ export const envconfig = {
     DATABASE_LOGGING: process.env.DATABASE_LOGGING === "true",
     APPLICATION_PORT: process.env.PORT,
 }
+
+export const swagger_path = path.resolve(__dirname, './swagger.yaml');

@@ -1,0 +1,34 @@
+openapi: "3.0.2"
+info:
+  title: Basic swagger setup for REST Test API
+  version: "1.0"
+servers:
+  - url: http://localhost:5000
+tags:
+  - name: Tests
+paths:
+  /test:
+    get:
+      summary: Hello world
+      tags:
+        - "Tests"
+      responses:
+        "200":
+          description: OK
+
+  /test/{name}:
+    get:
+      summary: Presonalised greeting
+      tags:
+        - "Tests"
+      description: Returns Hello with your name
+      responses:
+        "200":
+          description: OK
+      parameters:
+        - name: name
+          in: path
+          description: enter your name here
+          required: true
+          schema:
+            type: string
