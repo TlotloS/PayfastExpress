@@ -6,6 +6,7 @@ servers:
   - url: http://localhost:5000
 tags:
   - name: Tests
+  - name: Users
 paths:
   /test:
     get:
@@ -18,7 +19,7 @@ paths:
 
   /test/{name}:
     get:
-      summary: Presonalised greeting
+      summary: Personalised greeting
       tags:
         - "Tests"
       description: Returns Hello with your name
@@ -32,3 +33,34 @@ paths:
           required: true
           schema:
             type: string
+
+  /users:
+    post:
+      summary: User login endpoint
+      tags:
+        - "Users"
+      description: Returns user details with json token
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              properties:
+                email:
+                  description: User name
+                  type: string
+                password: 
+                  description: User password
+                  type: string
+              required:
+                - password
+                - email
+      responses:
+        "200":
+          description: OK
+          content:
+            "application/json": {}
+        "405":
+          description: Method Not Allowed
+          content:
+            "application/json": {}
+            "application/xml": {}
