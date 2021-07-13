@@ -13,9 +13,12 @@ const port = ENV_VARIABLES.APPLICATION_PORT;
 
 const main = async () => {
     await createConnection();
+
     app.use(express.json()); // json body-parser
     app.use(appRouter); // router
+
     app.use('/swagger', swaggerUI.serve, swaggerUI.setup(swaggerDocument)); // swagger
+
     app.listen(port, () => {
         console.log(`Application listening at http://localhost:${port}`)
     })

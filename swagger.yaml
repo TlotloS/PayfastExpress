@@ -59,8 +59,8 @@ paths:
           description: OK
           content:
             "application/json": {}
-        "405":
-          description: Method Not Allowed
+        "400":
+          description: Bad request
           content:
             "application/json": {}
             "application/xml": {}
