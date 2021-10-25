@@ -1,7 +1,7 @@
 import {envconfig as ENV_VARIABLES } from "./envconfig";
 
 module.exports = {
-  "type": "mysql",
+  "type": ENV_VARIABLES.DATABASE_TYPE,
   "host": ENV_VARIABLES.DATABASE_HOST,
   "port": ENV_VARIABLES.DATABASE_PORT,
   "username": ENV_VARIABLES.SQL_USER,

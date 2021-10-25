@@ -1,10 +1,10 @@
 import testRouter from "./testAPI";
-import userRouter from "./userAPI";
+import billingRouter from "./billingAPI";
 import express  from "express";
 
 const router = express.Router();
 
-router.use("/users",userRouter);
 router.use("/test",testRouter);
+router.use("/billing",billingRouter);
 
 export default router;
