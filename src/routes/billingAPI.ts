@@ -30,12 +30,9 @@ router.post("/payfast", async (req, res) => {
 });
 
 router.post("/itn", async (req, res) => {
-  const pfHost = envconfig.IS_DEV_ENV
-    ? "sandbox.payfast.co.za"
-    : "www.payfast.co.za";
-
-  const pfData = JSON.parse(JSON.stringify(req.body));
-
+  const pfHost = envconfig.IS_DEV_ENV ? "sandbox.payfast.co.za" : "www.payfast.co.za"; // pfHost
+  const pfData = JSON.parse(JSON.stringify(req.body)); // parse data
+  const pfIP = req.headers["x-forwarded-for"]; // create query param string
   let pfParamString = "";
   for (let key in pfData) {
     if (pfData.hasOwnProperty(key) && key !== "signature") {
@@ -45,11 +42,21 @@ router.post("/itn", async (req, res) => {
       )}&`;
     }
   }
-
-  // remove the last ampersand
-  pfParamString = pfParamString.substring(0, pfParamString.length - 1);
-  var result = _billingService.pfValidSignature(pfData, pfParamString);
-
-  res.status(200).send();
+  pfParamString = pfParamString.substring(0, pfParamString.length - 1); // remove the last ampersand
+  
+  // validation
+  var validSignature = _billingService.pfValidSignature(pfData, pfParamString);
+  var validPayment = _billingService.pfValidPaymentData(200, pfData);
+  var validIP = await  _billingService.pfValidateIP(pfIP as string);
+  var validDetails = await _billingService.pfValidServerConfirmation(pfHost,pfParamString);
+ 
+  if(validSignature && validIP && validPayment && validDetails)
+  {
+    res.status(200).send();
+  }else{
+    console.error(`Failed to to validate payment: ${pfData}`);
+  }
 });
 export default router;
+
+
